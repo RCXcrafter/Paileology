@@ -22,16 +22,16 @@ public class BucketRegistry {
 
 	public static List<BucketInfos> bucketList = new ArrayList<BucketInfos>();
 
-	public static void registerBucket(String name, String modID, String itemID, int meta, boolean canCarryHot, boolean canBreak, String oredict) {
+	public static void registerBucket(String name, String modID, String itemID, int meta, boolean canCarryHot, boolean canBreak, int color, String oredict) {
 		if (!Loader.isModLoaded(modID) && !modID.equals("minecraft"))
 			return;
 
 		Block compressedBlock;
 		List<Integer> existingLevels = new ArrayList<Integer>();
 		
-		Item bucketItem = registerItem(new ItemCustomBucket(name, new ResourceLocation(modID, itemID), canCarryHot, canBreak), name);
+		Item bucketItem = registerItem(new ItemCustomBucket(name, new ResourceLocation(modID, itemID), canCarryHot, canBreak, color), name);
 
-		bucketList.add(new BucketInfos(name, modID, itemID, meta, bucketItem, canCarryHot, canBreak, oredict));
+		bucketList.add(new BucketInfos(name, modID, itemID, meta, bucketItem, canCarryHot, canBreak, color, oredict));
 	}
 
 	public static void addRecipes() {
@@ -63,9 +63,10 @@ public class BucketRegistry {
 		public Item bucketItem;
 		public boolean canBucketCarryHot;
 		public boolean canBucketBreak;
+		public int color;
 		public String materialOredict;
 
-		public BucketInfos(String name, String mod, String item, int meta, Item bucket, boolean canCarryHot, boolean canBreak, String oredict) {
+		public BucketInfos(String name, String mod, String item, int meta, Item bucket, boolean canCarryHot, boolean canBreak, int materialColor, String oredict) {
 			materialName = name;
 			modID = mod;
 			itemID = item;
@@ -73,6 +74,7 @@ public class BucketRegistry {
 			bucketItem = bucket;
 			canBucketCarryHot = canCarryHot;
 			canBucketBreak = canBreak;
+			color = materialColor;
 			materialOredict = oredict;
 		}
 	}

@@ -3,7 +3,7 @@
   "defaults": {
     "model": "forge:item-layer",
     "textures": {
-      "layer0": "morebuckets:items/bucket_base"
+      "layer0": "morebuckets:items/bucket_base_gold"
     },
     "transform": "forge:default-item"
   },
@@ -11,9 +11,9 @@
     "inventory": {
       "model": "forge:forgebucket",
       "textures": {
-        "base": "morebuckets:items/bucket_base",
+        "base": "morebuckets:items/bucket_base_gold",
         "fluid": "morebuckets:items/bucket_fluid",
-        "cover": "morebuckets:items/bucket_cover"
+        "cover": "morebuckets:items/bucket_cover_gold"
       },
       "custom": {
         "fluid": "water",
@@ -23,7 +23,7 @@
 	"milk": [{
       "textures": {
         "layer1": "morebuckets:items/bucket_fluid",
-        "layer2": "morebuckets:items/bucket_cover"
+        "layer2": "morebuckets:items/bucket_cover_gold"
       }
 	}]
   }

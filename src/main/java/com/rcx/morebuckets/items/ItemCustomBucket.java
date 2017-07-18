@@ -60,14 +60,16 @@ public class ItemCustomBucket extends UniversalBucket implements IFluidContainer
 	public ResourceLocation baseItem;
 	public Boolean heatProof;
 	public Boolean breakable;
+	public int color;
 
-	public ItemCustomBucket(String name, ResourceLocation item, boolean canCarryHot, boolean canBreak) {
+	public ItemCustomBucket(String name, ResourceLocation item, boolean canCarryHot, boolean canBreak, int materialColor) {
 		materialName = name;
 		baseItem = item;
 		heatProof = canCarryHot;
 		breakable = canBreak;
 		setCreativeTab(MoreBuckets.modTab);
 		hasSubtypes = true;
+		color = materialColor;
 
 		MoreBuckets.emptyBuckets.add(new ItemStack(this));
 		// add all fluids that the bucket can be filled with
@@ -131,24 +133,24 @@ public class ItemCustomBucket extends UniversalBucket implements IFluidContainer
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemstack, World world, EntityPlayer player, EnumHand hand) {
-		System.out.println("test1");
+
 		// milk we set active and return success, drinking code is done elsewhere
 		if(getSpecialFluid(itemstack) == SpecialFluid.MILK) {
 			player.setActiveHand(hand);
 			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
 		}
-		System.out.println("test2");
+
 		// empty bucket logic is just an event :)
 		if(!hasFluid(itemstack)) {
 			ActionResult<ItemStack> ret = ForgeEventFactory.onBucketUse(player, world, itemstack, this.rayTrace(world, player, true));
 			if(ret != null) {
-				System.out.println("test3");
+
 				return ret;
 			}
-			System.out.println("test4");
+
 			return ActionResult.newResult(EnumActionResult.PASS, itemstack);
 		}
-		System.out.println("test5");
+
 		// clicked on a block?
 		RayTraceResult mop = this.rayTrace(world, player, false);
 		if(mop == null || mop.typeOfHit != RayTraceResult.Type.BLOCK) {

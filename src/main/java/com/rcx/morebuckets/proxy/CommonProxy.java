@@ -26,10 +26,12 @@ public class CommonProxy {
 
 		for (String entry : ConfigHandler.customBucketWhitelist) {
 			String[] entries = entry.split(":");
-			if(entries.length == 6) {
-				BucketRegistry.registerBucket(entries[0], entries[1], entries[2], Integer.parseInt(entries[3]), Boolean.parseBoolean(entries[4]), Boolean.parseBoolean(entries[5]), null);
+			if(entries[6].equals("custom"))
+				entries[6] = "-1";
+			if(entries.length == 7) {
+				BucketRegistry.registerBucket(entries[0], entries[1], entries[2], Integer.parseInt(entries[3]), Boolean.parseBoolean(entries[4]), Boolean.parseBoolean(entries[5]), Integer.parseInt(entries[6], 16), null);
 			} else {
-				BucketRegistry.registerBucket(entries[0], entries[1], entries[2], Integer.parseInt(entries[3]), Boolean.parseBoolean(entries[4]), Boolean.parseBoolean(entries[5]), entries[6]);
+				BucketRegistry.registerBucket(entries[0], entries[1], entries[2], Integer.parseInt(entries[3]), Boolean.parseBoolean(entries[4]), Boolean.parseBoolean(entries[5]), Integer.parseInt(entries[6], 16), entries[7]);
 			}
 		}
 		
