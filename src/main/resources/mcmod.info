@@ -1,0 +1,16 @@
+[
+{
+  "modid": "morebuckets",
+  "name": "More Buckets",
+  "description": "More buckets made out of various materials.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["RCXcrafter"],
+  "credits": "Forge, for finally having dynamic buckets.",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
