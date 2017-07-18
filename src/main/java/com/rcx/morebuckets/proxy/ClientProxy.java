@@ -7,7 +7,6 @@ import com.rcx.morebuckets.BucketRegistry;
 import com.rcx.morebuckets.BucketRegistry.BucketInfos;
 import com.rcx.morebuckets.items.ItemCustomBucket.SpecialFluid;
 import com.rcx.morebuckets.utils.ItemBucketColor;
-import com.rcx.morebuckets.utils.ModelColoredBucket;
 
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.client.Minecraft;
@@ -56,7 +55,6 @@ public class ClientProxy extends CommonProxy {
 				continue;
 			Minecraft.getMinecraft().getItemColors().registerItemColorHandler(bucketColorizer, bucketInfo.bucketItem);
 		}
-		ModelLoaderRegistry.registerLoader(ModelColoredBucket.LoaderDynBucket.INSTANCE);
 	}
 
 	public void postInit(FMLPostInitializationEvent event) {

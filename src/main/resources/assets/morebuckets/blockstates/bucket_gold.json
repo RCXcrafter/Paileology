@@ -13,7 +13,7 @@
       "textures": {
         "base": "morebuckets:items/bucket_base_gold",
         "fluid": "morebuckets:items/bucket_fluid",
-        "cover": "morebuckets:items/bucket_cover_gold"
+        "cover": "morebuckets:items/bucket_cover"
       },
       "custom": {
         "fluid": "water",
@@ -23,7 +23,7 @@
 	"milk": [{
       "textures": {
         "layer1": "morebuckets:items/bucket_fluid",
-        "layer2": "morebuckets:items/bucket_cover_gold"
+        "layer2": "morebuckets:items/bucket_cover"
       }
 	}]
   }
