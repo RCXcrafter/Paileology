@@ -35,7 +35,7 @@ public class ConfigHandler {
 				+ "\nheatproof: Weather the bucket can carry hot liquids."
 				+ "\nbreakable: Weather the bucket breaks upon placing a hot liquid."
 				+ "\ncolor: The color of the material, use a hexadecimal color code."
-				+ "\noredict: The ore dictionary name of the material (optional)");
+				+ "\noredict: The ore dictionary name of the material. (optional)");
 
 		config.save();
 	}
