@@ -28,8 +28,8 @@ public class BucketRegistry {
 
 		Block compressedBlock;
 		List<Integer> existingLevels = new ArrayList<Integer>();
-		
-		Item bucketItem = registerItem(new ItemCustomBucket(name, new ResourceLocation(modID, itemID), canCarryHot, canBreak, color), name);
+
+		Item bucketItem = registerItem(new ItemCustomBucket(name, new ResourceLocation(modID, itemID), canCarryHot, canBreak, color), name.toLowerCase());
 
 		bucketList.add(new BucketInfos(name, modID, itemID, meta, bucketItem, canCarryHot, canBreak, color, oredict));
 	}

@@ -14,7 +14,21 @@ public class ConfigHandler {
 	private static String[] customBucketWhitelistDefaults = {
 			"wood:minecraft:log:0:false:true:custom:logWood",
 			"leather:minecraft:leather:0:false:true:C65C35:leather",
-			"gold:minecraft:gold_ingot:0:true:false:custom:ingotGold"
+			"gold:minecraft:gold_ingot:0:true:false:custom:ingotGold",
+			"copper:thermalfoundation:material:128:true:false:FF9E49:ingotCopper",
+			"tin:thermalfoundation:material:129:true:false:B1CAD3:ingotTin",
+			"silver:thermalfoundation:material:130:true:false:D6F4FF:ingotSilver",
+			"lead:thermalfoundation:material:131:true:false:71567F:ingotLead",
+			"aluminum:thermalfoundation:material:132:true:false:FFFFFF:ingotAluminum",
+			"nickel:thermalfoundation:material:133:true:false:FFF9BA:ingotNickel",
+			"steel:thermalfoundation:material:160:true:false:C6C6C6:ingotSteel",
+			"electrum:thermalfoundation:material:161:true:false:FFEC60:ingotElectrum",
+			"invar:thermalfoundation:material:162:true:false:EEFFCC:ingotInvar",
+			"bronze:thermalfoundation:material:163:true:false:FFBB3D:ingotBronze",
+			"constantan:immersiveengineering:metal:6:true:false:FFA468:ingotConstantan",
+			"aluminumBrass:tconstruct:ingots:5:true:false:FFE15E:ingotAlubrass",
+			"rubber:IC2:crafting:0:false:true:333333:itemRubber",
+			"plastic:Mekanism:Polyethene:2:false:true:custom:itemPlastic"
 	};
 
 	public static void init(File file) {

@@ -31,8 +31,6 @@ public class MoreBuckets {
 	public static CreativeTab modTab= new CreativeTab(ModInformation.ID + ".creativeTab", new ItemStack(Items.BUCKET));
 	public static Logger logger = LogManager.getLogger(ModInformation.NAME);
 
-	//public static ItemCustomBucket customBucket;
-
 	public static List<ItemStack> emptyBuckets = new ArrayList<ItemStack>();
 	public static List<ItemStack> filledBuckets = new ArrayList<ItemStack>();
 	public static List<ItemStack> allBuckets = new ArrayList<ItemStack>();
@@ -47,7 +45,7 @@ public class MoreBuckets {
 		for(ItemStack bucket : MoreBuckets.emptyBuckets){
 			allBuckets.add(bucket);
 		}
-		
+
 		for(ItemStack bucket : MoreBuckets.filledBuckets){
 			allBuckets.add(bucket);
 		}

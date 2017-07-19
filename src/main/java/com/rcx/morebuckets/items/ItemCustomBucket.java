@@ -5,6 +5,8 @@ import java.util.Locale;
 
 import javax.annotation.Nullable;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.rcx.morebuckets.MoreBuckets;
 import com.rcx.morebuckets.utils.FluidCustomBucketWrapper;
 
@@ -108,10 +110,18 @@ public class ItemCustomBucket extends UniversalBucket implements IFluidContainer
 	public String getItemStackDisplayName(ItemStack stack) {
 		FluidStack fluidStack = getFluid(stack);
 		String fluid;
-		String material = materialName.substring(0, 1).toUpperCase() + materialName.substring(1);;
+		String material = materialName.substring(0, 1).toUpperCase() + materialName.substring(1);
 
 		if(I18n.canTranslate("material." + materialName + ".name")) {
 			material = I18n.translateToLocal("material." + materialName + ".name");
+		} else {
+			String[] looseWords = StringUtils.splitByCharacterTypeCamelCase(material);
+			material = looseWords[0];
+			for(String word : looseWords) {
+				if(word.equals(looseWords[0]))
+					continue;
+				material = material + " " + word;
+			}
 		}
 
 		if(fluidStack == null && !hasSpecialFluid(stack)) {

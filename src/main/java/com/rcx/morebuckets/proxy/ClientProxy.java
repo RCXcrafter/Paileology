@@ -47,9 +47,9 @@ public class ClientProxy extends CommonProxy {
 
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
-		
+
 		ItemBucketColor bucketColorizer = new ItemBucketColor();
-		
+
 		for (BucketInfos bucketInfo : BucketRegistry.bucketList) {
 			if(bucketInfo.color == -1)
 				continue;
