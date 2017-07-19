@@ -247,8 +247,7 @@ public class ItemCustomBucket extends UniversalBucket implements IFluidContainer
 		World world = event.getWorld();
 		BlockPos pos = target.getBlockPos();
 
-		ItemStack filledBucket = FluidUtil.tryPickUpFluid(singleBucket, event.getEntityPlayer(), world, pos,
-				target.sideHit);
+		ItemStack filledBucket = FluidUtil.tryPickUpFluid(singleBucket, event.getEntityPlayer(), world, pos, target.sideHit);
 
 		// if we have a bucket from the fluid, use that
 		if(filledBucket != null) {
@@ -386,6 +385,11 @@ public class ItemCustomBucket extends UniversalBucket implements IFluidContainer
 			return 0;
 		}
 
+		// do not fill if fluid is too hot to handle
+		if(!heatProof && resource.getFluid().getTemperature() >= 450) {
+			return 0;
+		}
+
 		// already contains fluid?
 		if(hasFluid(container)) {
 			return 0;
@@ -402,8 +406,7 @@ public class ItemCustomBucket extends UniversalBucket implements IFluidContainer
 		// registered in the registry?
 		// we manually add water and lava since they by default are not
 		// registered (as vanilla adds them)
-		else if(FluidRegistry.getBucketFluids().contains(resource.getFluid())
-				|| resource.getFluid() == FluidRegistry.WATER || resource.getFluid() == FluidRegistry.LAVA) {
+		else if(FluidRegistry.getBucketFluids().contains(resource.getFluid()) || resource.getFluid() == FluidRegistry.WATER || resource.getFluid() == FluidRegistry.LAVA) {
 			// fill the container
 			if(doFill) {
 				NBTTagCompound tag = container.getTagCompound();

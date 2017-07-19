@@ -6,10 +6,12 @@ import java.util.List;
 import com.rcx.morebuckets.BucketRegistry;
 import com.rcx.morebuckets.ConfigHandler;
 import com.rcx.morebuckets.MoreBuckets;
+import com.rcx.morebuckets.BucketRegistry.BucketInfos;
 import com.rcx.morebuckets.items.ItemCustomBucket;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -42,6 +44,8 @@ public class CommonProxy {
 	}
 
 	public void postInit(FMLPostInitializationEvent event) {
-
+		for (BucketInfos bucketInfo : BucketRegistry.bucketList) {
+			MinecraftForge.EVENT_BUS.register(bucketInfo.bucketItem);
+		}
 	}
 }

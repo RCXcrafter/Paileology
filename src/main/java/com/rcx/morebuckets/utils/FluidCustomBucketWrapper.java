@@ -42,7 +42,7 @@ public class FluidCustomBucketWrapper extends FluidBucketWrapper {
 	@Override
 	public boolean canFillFluidType(FluidStack fluid) {
 		if (fluid.getFluid() == FluidRegistry.WATER || fluid.getFluid() == FluidRegistry.LAVA || fluid.getFluid().getName().equals("milk") || FluidRegistry.getBucketFluids().contains(fluid.getFluid())) {
-			if(heatProof && fluid.getFluid().getTemperature() <= 450){
+			if(heatProof || fluid.getFluid().getTemperature() < 450){
 				return true;
 			}
 		}
