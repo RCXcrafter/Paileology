@@ -21,8 +21,8 @@ plugins {
 }
 */
 version = "1.0.0"
-group= "com.rcx.morebuckets" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "morebuckets"
+group= "com.rcx.paileology" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "paileology"
 
 minecraft {
     version = "1.10.2-12.18.3.2316"

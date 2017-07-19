@@ -1,15 +1,15 @@
 [
 {
-  "modid": "morebuckets",
-  "name": "More Buckets",
-  "description": "More buckets made out of various materials.",
+  "modid": "paileology",
+  "name": "Paileology",
+  "description": "Adds buckets made out of various materials.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
   "authorList": ["RCXcrafter"],
   "credits": "Forge, for finally having dynamic buckets and knightminer, for making the ceramics mod(I copy pasted a bunch of code from that mod).",
-  "logoFile": "",
+  "logoFile": "paileology_logo.png",
   "screenshots": [],
   "dependencies": []
 }

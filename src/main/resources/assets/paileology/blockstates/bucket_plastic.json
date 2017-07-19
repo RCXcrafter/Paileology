@@ -1,0 +1,30 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "forge:item-layer",
+    "textures": {
+      "layer0": "paileology:items/bucket_base_plastic"
+    },
+    "transform": "forge:default-item"
+  },
+  "variants": {
+    "inventory": {
+      "model": "forge:forgebucket",
+      "textures": {
+        "base": "paileology:items/bucket_base_plastic",
+        "fluid": "paileology:items/bucket_fluid",
+        "cover": "paileology:items/bucket_cover"
+      },
+      "custom": {
+        "fluid": "water",
+        "flipGas": true
+      }
+    },
+	"milk": [{
+      "textures": {
+        "layer1": "paileology:items/bucket_fluid",
+        "layer2": "paileology:items/bucket_cover"
+      }
+	}]
+  }
+}
