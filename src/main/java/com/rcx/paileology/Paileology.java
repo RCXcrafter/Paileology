@@ -3,17 +3,10 @@ package com.rcx.paileology;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.rcx.paileology.BucketRegistry.BucketInfos;
-import com.rcx.paileology.items.ItemCustomBucket;
 import com.rcx.paileology.proxy.CommonProxy;
 import com.rcx.paileology.utils.CreativeTab;
 
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -29,7 +22,6 @@ public class Paileology {
 	public static CommonProxy proxy;
 
 	public static CreativeTab modTab= new CreativeTab(ModInformation.ID + ".creativeTab", new ItemStack(Items.BUCKET));
-	public static Logger logger = LogManager.getLogger(ModInformation.NAME);
 
 	public static List<ItemStack> emptyBuckets = new ArrayList<ItemStack>();
 	public static List<ItemStack> filledBuckets = new ArrayList<ItemStack>();

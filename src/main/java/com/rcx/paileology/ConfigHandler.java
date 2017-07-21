@@ -13,8 +13,10 @@ public class ConfigHandler {
 	public static String[] customBucketWhitelist;
 	private static String[] customBucketWhitelistDefaults = {
 			"wood:minecraft:log:0:false:true:custom:logWood",
+			"cactus:minecraft:cactus:0:false:true:custom:blockCactus",
 			"leather:minecraft:leather:0:false:true:C65C35:leather",
 			"glass:minecraft:glass_pane:0:true:true:custom:paneGlassColorless",
+			"netherBrick:minecraft:netherbrick:0:true:true:49282E:ingotBrickNether",
 			"gold:minecraft:gold_ingot:0:true:false:custom:ingotGold",
 			"copper:thermalfoundation:material:128:true:false:FF9E49:ingotCopper",
 			"tin:thermalfoundation:material:129:true:false:B1CAD3:ingotTin",
@@ -52,6 +54,7 @@ public class ConfigHandler {
 				+ "\ncolor: The color of the material, use a hexadecimal color code."
 				+ "\noredict: The ore dictionary name of the material. (optional)");
 
-		config.save();
+		if(config.hasChanged())
+			config.save();
 	}
 }

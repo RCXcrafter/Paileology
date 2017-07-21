@@ -9,17 +9,14 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.rcx.paileology.Paileology;
 import com.rcx.paileology.utils.FluidCustomBucketWrapper;
+import com.robrit.moofluids.common.entity.EntityFluidCow;
 
 import net.minecraft.block.BlockDispenser;
-import net.minecraft.block.BlockSand;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
@@ -46,6 +43,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fluids.UniversalBucket;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -72,29 +70,6 @@ public class ItemCustomBucket extends UniversalBucket implements IFluidContainer
 		setCreativeTab(Paileology.modTab);
 		hasSubtypes = true;
 		color = materialColor;
-
-		Paileology.emptyBuckets.add(new ItemStack(this));
-		// add all fluids that the bucket can be filled with
-		for(Fluid fluid : FluidRegistry.getRegisteredFluids().values()) {
-			// skip milk if registered since we add it manually whether it is a
-			// fluid or not
-			if(!fluid.getName().equals("milk")) {
-				if(!heatProof && fluid.getTemperature() >= 450){
-					continue;
-				}
-				FluidStack fs = new FluidStack(fluid, getCapacity());
-				ItemStack stack = new ItemStack(this);
-				if(fill(stack, fs, true) == fs.amount) {
-					Paileology.filledBuckets.add(stack);
-				}
-			}
-		}
-		// special fluids
-		for(SpecialFluid fluid : SpecialFluid.values()) {
-			if(fluid.show()) {
-				Paileology.filledBuckets.add(new ItemStack(this, 1, fluid.getMeta()));
-			}
-		}
 
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(this, DispenseFluidContainer.getInstance());
 	}
@@ -296,12 +271,15 @@ public class ItemCustomBucket extends UniversalBucket implements IFluidContainer
 		// only work if the bucket is empty and right clicking a cow
 		if(!hasFluid(stack) && target instanceof EntityCow && !player.capabilities.isCreativeMode) {
 			// if we have multiple buckets in the stack, move to a new slot
-			if(stack.stackSize > 1) {
-				stack.stackSize -= 1;
-				ItemHandlerHelper.giveItemToPlayer(player, setSpecialFluid(new ItemStack(this), SpecialFluid.MILK));
-			}
-			else {
-				setSpecialFluid(stack, SpecialFluid.MILK);
+			if(Loader.isModLoaded("moofluids") && target instanceof EntityFluidCow) {
+				return false;//((EntityFluidCow) target).processInteract(player, hand, stack);
+			} else {
+				if(stack.stackSize > 1) {
+					stack.stackSize -= 1;
+					ItemHandlerHelper.giveItemToPlayer(player, setSpecialFluid(new ItemStack(this), SpecialFluid.MILK));
+				} else {
+					setSpecialFluid(stack, SpecialFluid.MILK);
+				}
 			}
 
 			return true;

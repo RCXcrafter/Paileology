@@ -2,7 +2,7 @@ package com.rcx.paileology.utils;
 
 import java.util.List;
 
-import com.rcx.paileology.Paileology;
+//import com.rcx.paileology.Paileology;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;

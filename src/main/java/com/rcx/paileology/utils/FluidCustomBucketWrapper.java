@@ -2,24 +2,12 @@ package com.rcx.paileology.utils;
 
 import javax.annotation.Nullable;
 
-import com.rcx.paileology.Paileology;
 import com.rcx.paileology.items.ItemCustomBucket;
-import com.rcx.paileology.proxy.CommonProxy;
 
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBucketMilk;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
-import net.minecraftforge.common.ForgeModContainer;
-import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.UniversalBucket;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.FluidTankProperties;
-import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import net.minecraftforge.fluids.capability.wrappers.FluidBucketWrapper;
 
 public class FluidCustomBucketWrapper extends FluidBucketWrapper {

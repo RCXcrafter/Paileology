@@ -1,21 +1,13 @@
 package com.rcx.paileology.proxy;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rcx.paileology.BucketRegistry;
 import com.rcx.paileology.ConfigHandler;
-import com.rcx.paileology.Paileology;
 import com.rcx.paileology.BucketRegistry.BucketInfos;
-import com.rcx.paileology.items.ItemCustomBucket;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class CommonProxy {
 
