@@ -122,6 +122,12 @@ public class ItemCustomBucket extends UniversalBucket implements IFluidContainer
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemstack, World world, EntityPlayer player, EnumHand hand) {
 
+		// milk we set active and return success, drinking code is done elsewhere
+		if(getSpecialFluid(itemstack) == SpecialFluid.MILK) {
+			player.setActiveHand(hand);
+			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
+		}
+
 		// empty bucket logic is just an event :)
 		if(!hasFluid(itemstack)) {
 			ActionResult<ItemStack> ret = ForgeEventFactory.onBucketUse(player, world, itemstack, this.rayTrace(world, player, true));
@@ -197,12 +203,6 @@ public class ItemCustomBucket extends UniversalBucket implements IFluidContainer
 					return ActionResult.newResult(EnumActionResult.SUCCESS, itemstack);
 				}
 			}
-		}
-
-		// milk we set active and return success, drinking code is done elsewhere
-		if(getSpecialFluid(itemstack) == SpecialFluid.MILK) {
-			player.setActiveHand(hand);
-			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
 		}
 
 		// couldn't place liquid there
@@ -385,10 +385,19 @@ public class ItemCustomBucket extends UniversalBucket implements IFluidContainer
 		if(hasFluid(container)) {
 			return 0;
 		}
+
+		// milk is handled separatelly since there is not always a fluid for it
+		// registered
+		if(resource.getFluid().getName().equals("milk")) {
+			if(doFill) {
+				setSpecialFluid(container, SpecialFluid.MILK);
+			}
+			return getCapacity();
+		}
 		// registered in the registry?
 		// we manually add water and lava since they by default are not
 		// registered (as vanilla adds them)
-		if(FluidRegistry.getBucketFluids().contains(resource.getFluid()) || resource.getFluid() == FluidRegistry.WATER || resource.getFluid() == FluidRegistry.LAVA) {
+		else if(FluidRegistry.getBucketFluids().contains(resource.getFluid()) || resource.getFluid() == FluidRegistry.WATER || resource.getFluid() == FluidRegistry.LAVA) {
 			// fill the container
 			if(doFill) {
 				NBTTagCompound tag = container.getTagCompound();
@@ -397,15 +406,6 @@ public class ItemCustomBucket extends UniversalBucket implements IFluidContainer
 				}
 				tag.setTag(TAG_FLUIDS, resource.writeToNBT(new NBTTagCompound()));
 				container.setTagCompound(tag);
-			}
-			return getCapacity();
-		}
-
-		// milk is handled separatelly since there is not always a fluid for it
-		// registered
-		else if(resource.getFluid().getName().equals("milk")) {
-			if(doFill) {
-				setSpecialFluid(container, SpecialFluid.MILK);
 			}
 			return getCapacity();
 		}
