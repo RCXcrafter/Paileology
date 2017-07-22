@@ -4,10 +4,13 @@ import com.rcx.paileology.BucketRegistry;
 import com.rcx.paileology.ConfigHandler;
 import com.rcx.paileology.BucketRegistry.BucketInfos;
 
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class CommonProxy {
 
@@ -25,6 +28,8 @@ public class CommonProxy {
 				BucketRegistry.registerBucket(entries[0], entries[1], entries[2], Integer.parseInt(entries[3]), Boolean.parseBoolean(entries[4]), Boolean.parseBoolean(entries[5]), Integer.parseInt(entries[6], 16), entries[7]);
 			}
 		}
+		
+		OreDictionary.registerOre("bucketMilk", new ItemStack(Items.MILK_BUCKET));
 	}
 
 	public void init(FMLInitializationEvent event) {
