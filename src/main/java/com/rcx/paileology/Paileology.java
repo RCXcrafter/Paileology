@@ -1,13 +1,11 @@
 package com.rcx.paileology;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rcx.paileology.proxy.CommonProxy;
 import com.rcx.paileology.utils.CreativeTab;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -23,9 +21,9 @@ public class Paileology {
 
 	public static CreativeTab modTab= new CreativeTab(ModInformation.ID + ".creativeTab", new ItemStack(Items.BUCKET));
 
-	public static List<ItemStack> emptyBuckets = new ArrayList<ItemStack>();
-	public static List<ItemStack> filledBuckets = new ArrayList<ItemStack>();
-	public static List<ItemStack> allBuckets = new ArrayList<ItemStack>();
+	public static NonNullList<ItemStack> emptyBuckets = NonNullList.create();
+	public static NonNullList<ItemStack> filledBuckets = NonNullList.create();
+	public static NonNullList<ItemStack> allBuckets = NonNullList.create();
 
 	@Mod.Instance
 	public static Paileology instance;

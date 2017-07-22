@@ -76,7 +76,7 @@ public class BucketRegistry {
 		GameRegistry.registerFuelHandler(new IFuelHandler() {
 			@Override
 			public int getBurnTime(ItemStack fuel) {
-				if(fuel != null && fuel.getItem() instanceof ItemCustomBucket) {
+				if(!fuel.isEmpty() && fuel.getItem() instanceof ItemCustomBucket) {
 					FluidStack fluid = ((ItemCustomBucket) fuel.getItem()).getFluid(fuel);
 					if(fluid != null && fluid.getFluid() == FluidRegistry.LAVA) {
 						return 20000;

@@ -1,6 +1,5 @@
 package com.rcx.paileology.items;
 
-import java.util.List;
 import java.util.Locale;
 
 import javax.annotation.Nullable;
@@ -9,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.rcx.paileology.Paileology;
 import com.rcx.paileology.utils.FluidCustomBucketWrapper;
-import com.robrit.moofluids.common.entity.EntityFluidCow;
+//import com.robrit.moofluids.common.entity.EntityFluidCow;
 
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.state.IBlockState;
@@ -26,6 +25,7 @@ import net.minecraft.stats.StatList;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -38,10 +38,10 @@ import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.fluids.DispenseFluidContainer;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fluids.UniversalBucket;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.Event;
@@ -52,7 +52,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 @SuppressWarnings("deprecation")
-public class ItemCustomBucket extends UniversalBucket implements IFluidContainerItem {
+public class ItemCustomBucket extends UniversalBucket {
 
 	public static final String TAG_FLUIDS = "fluids";
 	public static ItemStack MILK_BUCKET = new ItemStack(Items.MILK_BUCKET);
@@ -120,7 +120,8 @@ public class ItemCustomBucket extends UniversalBucket implements IFluidContainer
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemstack, World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack itemstack = player.getHeldItem(hand);
 
 		// milk we set active and return success, drinking code is done elsewhere
 		if(getSpecialFluid(itemstack) == SpecialFluid.MILK) {
@@ -184,13 +185,15 @@ public class ItemCustomBucket extends UniversalBucket implements IFluidContainer
 					}
 				}
 				// try placing liquid
-				else if(FluidUtil.tryPlaceFluid(player, player.getEntityWorld(), fluidStack, targetPos)) {
+				FluidActionResult result = FluidUtil.tryPlaceFluid(player, player.getEntityWorld(), targetPos, itemstack, fluidStack);
+
+				if(result.isSuccess()) {
 					// success!
 
 					// water and lava use the non-flowing form for the fluid, so
 					// give it a block update to make it flow
 					if(fluidStack.getFluid() == FluidRegistry.WATER || fluidStack.getFluid() == FluidRegistry.LAVA) {
-						world.notifyBlockOfStateChange(targetPos, world.getBlockState(targetPos).getBlock());
+						world.notifyNeighborsOfStateChange(targetPos, world.getBlockState(targetPos).getBlock(), true);
 					}
 
 					// only empty if not creative
@@ -218,14 +221,14 @@ public class ItemCustomBucket extends UniversalBucket implements IFluidContainer
 
 		// not for us to handle
 		ItemStack emptyBucket = event.getEmptyBucket();
-		if(emptyBucket == null || !emptyBucket.getItem().equals(this)) {
+		if(emptyBucket.isEmpty() || !emptyBucket.getItem().equals(this)) {
 			return;
 		}
 
 		// needs to target a block or entity
 
 		ItemStack singleBucket = emptyBucket.copy();
-		singleBucket.stackSize = 1;
+		singleBucket.setCount(1);
 
 		RayTraceResult target = event.getTarget();
 		if(target == null || target.typeOfHit != RayTraceResult.Type.BLOCK) {
@@ -235,18 +238,18 @@ public class ItemCustomBucket extends UniversalBucket implements IFluidContainer
 		World world = event.getWorld();
 		BlockPos pos = target.getBlockPos();
 
-		ItemStack filledBucket = FluidUtil.tryPickUpFluid(singleBucket, event.getEntityPlayer(), world, pos, target.sideHit);
+		FluidActionResult filledBucket = FluidUtil.tryPickUpFluid(singleBucket, event.getEntityPlayer(), world, pos, target.sideHit);
 
 		// if we have a bucket from the fluid, use that
 		if(filledBucket != null) {
 			event.setResult(Event.Result.ALLOW);
-			event.setFilledBucket(filledBucket);
+			event.setFilledBucket(filledBucket.getResult());
 		}
 	}
 
 	@SubscribeEvent
 	public void onItemDestroyed(PlayerDestroyItemEvent event) {
-		if(event.getOriginal() != null && event.getOriginal().getItem() == this) {
+		if(!event.getOriginal().isEmpty() && event.getOriginal().getItem() == this) {
 			event.getEntityPlayer().renderBrokenItemStack(new ItemStack(Item.REGISTRY.getObject(baseItem)));
 		}
 	}
@@ -256,7 +259,7 @@ public class ItemCustomBucket extends UniversalBucket implements IFluidContainer
 	@Override
 	public ItemStack getContainerItem(ItemStack stack) {
 		if (doesBreak(stack)) {
-			return null;
+			return ItemStack.EMPTY;
 		}
 		return new ItemStack(this);
 	}
@@ -271,16 +274,16 @@ public class ItemCustomBucket extends UniversalBucket implements IFluidContainer
 		// only work if the bucket is empty and right clicking a cow
 		if(!hasFluid(stack) && target instanceof EntityCow && !player.capabilities.isCreativeMode) {
 			// if we have multiple buckets in the stack, move to a new slot
-			if(Loader.isModLoaded("moofluids") && target instanceof EntityFluidCow) {
+			/*if(Loader.isModLoaded("moofluids") && target instanceof EntityFluidCow) {
 				return false;//((EntityFluidCow) target).processInteract(player, hand, stack);
-			} else {
-				if(stack.stackSize > 1) {
-					stack.stackSize -= 1;
+			} else {*/
+				if(stack.getCount() > 1) {
+					stack.shrink(1);
 					ItemHandlerHelper.giveItemToPlayer(player, setSpecialFluid(new ItemStack(this), SpecialFluid.MILK));
 				} else {
 					setSpecialFluid(stack, SpecialFluid.MILK);
 				}
-			}
+			//}
 
 			return true;
 		}
@@ -355,19 +358,13 @@ public class ItemCustomBucket extends UniversalBucket implements IFluidContainer
 		return getFluid(container) != null;
 	}
 
-	@Override
-	public int getCapacity(ItemStack container) {
-		return getCapacity();
-	}
-
 	public int getCapacity() {
 		return Fluid.BUCKET_VOLUME;
 	}
 
-	@Override
 	public int fill(ItemStack container, FluidStack resource, boolean doFill) {
 		// has to be exactly 1, must be handled from the caller
-		if(container.stackSize != 1) {
+		if(container.getCount() != 1) {
 			return 0;
 		}
 
@@ -413,22 +410,21 @@ public class ItemCustomBucket extends UniversalBucket implements IFluidContainer
 		return 0;
 	}
 
-	@Override
 	public FluidStack drain(ItemStack container, int maxDrain, boolean doDrain) {
 		// has to be exactly 1, must be handled from the caller
-		if(container.stackSize != 1) {
+		if(container.getCount() != 1) {
 			return null;
 		}
 
 		// can only drain everything at once
-		if(maxDrain < getCapacity(container)) {
+		if(maxDrain < getCapacity()) {
 			return null;
 		}
 
 		FluidStack fluidStack = getFluid(container);
 		if(doDrain && hasFluid(container)) {
 			if(doesBreak(container)) {
-				container.stackSize = 0;
+				container.setCount(0);
 			}
 			else {
 				// milk simply requires a metadata change
@@ -502,7 +498,7 @@ public class ItemCustomBucket extends UniversalBucket implements IFluidContainer
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
 		// empty
 		subItems.add(new ItemStack(this));
 

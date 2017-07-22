@@ -1,12 +1,11 @@
 package com.rcx.paileology.utils;
 
-import java.util.List;
-
 //import com.rcx.paileology.Paileology;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -26,17 +25,12 @@ public class CreativeTab extends CreativeTabs {
 	}
 
 	@Override
-	public Item getTabIconItem() {
-		return icon.getItem();
+	public ItemStack getTabIconItem() {
+		return icon;
 	}
 
 	@Override
-	public int getIconItemDamage() {
-		return icon.getItemDamage();
-	}
-
-	@Override
-	public void displayAllRelevantItems(List<ItemStack> items) {
+	public void displayAllRelevantItems(NonNullList<ItemStack> items) {
 		//items = Paileology.allBuckets;
 		super.displayAllRelevantItems(items);
 	}
