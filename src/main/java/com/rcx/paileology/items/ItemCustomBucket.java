@@ -496,9 +496,18 @@ public class ItemCustomBucket extends UniversalBucket {
 		return getSpecialFluid(stack) == SpecialFluid.MILK ? EnumAction.DRINK : EnumAction.NONE;
 	}
 
+	@Override
+	public int getItemBurnTime(ItemStack stack) {
+		FluidStack fluid = ((ItemCustomBucket) stack.getItem()).getFluid(stack);
+		if(fluid != null && fluid.getFluid() == FluidRegistry.LAVA) {
+			return 20000;
+		}
+		return 0;
+	}
+
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
 		// empty
 		subItems.add(new ItemStack(this));
 

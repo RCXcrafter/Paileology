@@ -9,15 +9,21 @@ import com.rcx.paileology.items.ItemCustomBucket.SpecialFluid;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.item.crafting.ShapedRecipes;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.IFuelHandler;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
+import net.minecraftforge.registries.IForgeRegistry;
 
 public class BucketRegistry {
 
@@ -27,11 +33,10 @@ public class BucketRegistry {
 		if (!(Loader.isModLoaded(modID) || modID.equals("minecraft") || OreDictionary.doesOreNameExist(oredict)))
 			return;
 
-		Item bucketItem = registerItem(new ItemCustomBucket(name, new ResourceLocation(modID, itemID), canCarryHot, canBreak, color), name.toLowerCase());
+		Item bucketItem = new ItemCustomBucket(name, new ResourceLocation(modID, itemID), canCarryHot, canBreak, color);
 
-		OreDictionary.registerOre("bucket" + name.substring(0, 1).toUpperCase() + name.substring(1), new ItemStack(bucketItem));
-		OreDictionary.registerOre("bucketMilk", new ItemStack(bucketItem, 1, SpecialFluid.MILK.getMeta()));
-		OreDictionary.registerOre("listAllmilk", new ItemStack(bucketItem, 1, SpecialFluid.MILK.getMeta()));
+		bucketItem.setUnlocalizedName("bucket_" + name.toLowerCase());
+		bucketItem.setRegistryName("bucket_" + name.toLowerCase());
 
 		bucketList.add(new BucketInfos(name, modID, itemID, meta, bucketItem, canCarryHot, canBreak, color, oredict));
 	}
@@ -42,10 +47,10 @@ public class BucketRegistry {
 			Item bucket = bucketInfo.bucketItem;
 			Item baseItem = Item.REGISTRY.getObject(new ResourceLocation(bucketInfo.modID, bucketInfo.itemID));
 
-			if (OreDictionary.doesOreNameExist(oredict))
-				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bucket, 1, 0), "X X", " X ", 'X', oredict));
-			else
-				GameRegistry.addRecipe(new ItemStack(bucket, 1, 0), "X X", " X ", 'X', new ItemStack(baseItem, 1, bucketInfo.itemMeta));
+			//if (OreDictionary.doesOreNameExist(oredict))
+			//GameRegistry.addShapedRecipe(new ShapedOreRecipe(new ItemStack(bucket, 1, 0), "X X", " X ", 'X', oredict));
+			//else
+			//GameRegistry.addShapedRecipe(new ItemStack(bucket, 1, 0), "X X", " X ", 'X', new ItemStack(baseItem, 1, bucketInfo.itemMeta));
 
 			Paileology.emptyBuckets.add(new ItemStack(bucket));
 			// add all fluids that the bucket can be filled with
@@ -70,29 +75,25 @@ public class BucketRegistry {
 					Paileology.filledBuckets.add(new ItemStack(bucket, 1, fluid.getMeta()));
 				}
 			}
+			OreDictionary.registerOre("bucket" + bucketInfo.materialName.substring(0, 1).toUpperCase() + bucketInfo.materialName.substring(1), new ItemStack(bucket));
+			OreDictionary.registerOre("bucketMilk", new ItemStack(bucket, 1, SpecialFluid.MILK.getMeta()));
+			OreDictionary.registerOre("listAllmilk", new ItemStack(bucket, 1, SpecialFluid.MILK.getMeta()));
 		}
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Items.CAKE), "MMM", "SES", "WWW", 'M', "bucketMilk", 'S', Items.SUGAR, 'E', "egg", 'W', "cropWheat"));
-
-		GameRegistry.registerFuelHandler(new IFuelHandler() {
-			@Override
-			public int getBurnTime(ItemStack fuel) {
-				if(!fuel.isEmpty() && fuel.getItem() instanceof ItemCustomBucket) {
-					FluidStack fluid = ((ItemCustomBucket) fuel.getItem()).getFluid(fuel);
-					if(fluid != null && fluid.getFluid() == FluidRegistry.LAVA) {
-						return 20000;
-					}
-				}
-				return 0;
-			}
-		});
-	}
-
-	private static <T extends Item> T registerItem(T item, String name) {
-		item.setUnlocalizedName(name);
-		item.setRegistryName(name);
-		GameRegistry.register(item);
-
-		return item;
+		//GameRegistry.addShapedRecipe(new ShapedOreRecipe(new ItemStack(Items.CAKE), "MMM", "SES", "WWW", 'M', "bucketMilk", 'S', Items.SUGAR, 'E', "egg", 'W', "cropWheat"));
+		//not even a joke
+		NonNullList<Ingredient> cakeIngredients = NonNullList.create();
+		//cakeIngredients = ShapedRecipes.();
+		/*cakeIngredients.add(Ingredient.fromStacks((ItemStack[]) OreDictionary.getOres("bucketMilk").toArray()));
+		cakeIngredients.add(Ingredient.fromStacks((ItemStack[]) OreDictionary.getOres("bucketMilk").toArray()));
+		cakeIngredients.add(Ingredient.fromStacks((ItemStack[]) OreDictionary.getOres("bucketMilk").toArray()));
+		cakeIngredients.add(Ingredient.fromItem(Items.SUGAR));
+		cakeIngredients.add(Ingredient.fromStacks((ItemStack[]) OreDictionary.getOres("egg").toArray()));
+		cakeIngredients.add(Ingredient.fromItem(Items.SUGAR));
+		cakeIngredients.add(Ingredient.fromStacks((ItemStack[]) OreDictionary.getOres("cropWheat").toArray()));
+		cakeIngredients.add(Ingredient.fromStacks((ItemStack[]) OreDictionary.getOres("cropWheat").toArray()));
+		cakeIngredients.add(Ingredient.fromStacks((ItemStack[]) OreDictionary.getOres("cropWheat").toArray()));*/
+		
+		ForgeRegistries.RECIPES.register(new ShapedRecipes("fortykeks", 3, 3, cakeIngredients, new ItemStack(Items.CAKE)).setRegistryName("fortykeks"));
 	}
 
 	public static class BucketInfos {
