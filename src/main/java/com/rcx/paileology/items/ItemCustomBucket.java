@@ -508,6 +508,8 @@ public class ItemCustomBucket extends UniversalBucket {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
+		if (!this.isInCreativeTab(tab))
+            return;
 		// empty
 		subItems.add(new ItemStack(this));
 
