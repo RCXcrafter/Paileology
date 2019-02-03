@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 public class ItemBucketColor implements IItemColor {
 
 	@Override
-	public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+	public int colorMultiplier(ItemStack stack, int tintIndex) {
 		if(tintIndex != 1) {
 			if(stack.getItem() instanceof ItemCustomBucket) {
 				return ((ItemCustomBucket)stack.getItem()).color;

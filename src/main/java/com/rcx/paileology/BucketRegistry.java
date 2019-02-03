@@ -9,25 +9,19 @@ import com.rcx.paileology.items.ItemCustomBucket.SpecialFluid;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.common.IFuelHandler;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
-import net.minecraftforge.registries.IForgeRegistry;
 
 public class BucketRegistry {
 
 	public static List<BucketInfos> bucketList = new ArrayList<BucketInfos>();
+
+	static ResourceLocation group = new ResourceLocation("");
 
 	public static void registerBucket(String name, String modID, String itemID, int meta, boolean canCarryHot, boolean canBreak, int color, String oredict) {
 		if (!(Loader.isModLoaded(modID) || modID.equals("minecraft") || OreDictionary.doesOreNameExist(oredict)))
@@ -47,10 +41,10 @@ public class BucketRegistry {
 			Item bucket = bucketInfo.bucketItem;
 			Item baseItem = Item.REGISTRY.getObject(new ResourceLocation(bucketInfo.modID, bucketInfo.itemID));
 
-			//if (OreDictionary.doesOreNameExist(oredict))
-			//GameRegistry.addShapedRecipe(new ShapedOreRecipe(new ItemStack(bucket, 1, 0), "X X", " X ", 'X', oredict));
-			//else
-			//GameRegistry.addShapedRecipe(new ItemStack(bucket, 1, 0), "X X", " X ", 'X', new ItemStack(baseItem, 1, bucketInfo.itemMeta));
+			if (OreDictionary.doesOreNameExist(oredict))
+				GameRegistry.addShapedRecipe(new ResourceLocation(ModInformation.ID, oredict), group, new ItemStack(bucket, 1, 0), new Object[]{"X X", " X ", 'X', oredict});
+			else
+				GameRegistry.addShapedRecipe(new ResourceLocation(ModInformation.ID, oredict), group, new ItemStack(bucket, 1, 0), new Object[]{"X X", " X ", 'X', new ItemStack(baseItem, 1, bucketInfo.itemMeta)});
 
 			Paileology.emptyBuckets.add(new ItemStack(bucket));
 			// add all fluids that the bucket can be filled with
@@ -79,21 +73,7 @@ public class BucketRegistry {
 			OreDictionary.registerOre("bucketMilk", new ItemStack(bucket, 1, SpecialFluid.MILK.getMeta()));
 			OreDictionary.registerOre("listAllmilk", new ItemStack(bucket, 1, SpecialFluid.MILK.getMeta()));
 		}
-		//GameRegistry.addShapedRecipe(new ShapedOreRecipe(new ItemStack(Items.CAKE), "MMM", "SES", "WWW", 'M', "bucketMilk", 'S', Items.SUGAR, 'E', "egg", 'W', "cropWheat"));
-		//not even a joke
-		NonNullList<Ingredient> cakeIngredients = NonNullList.create();
-		//cakeIngredients = ShapedRecipes.();
-		/*cakeIngredients.add(Ingredient.fromStacks((ItemStack[]) OreDictionary.getOres("bucketMilk").toArray()));
-		cakeIngredients.add(Ingredient.fromStacks((ItemStack[]) OreDictionary.getOres("bucketMilk").toArray()));
-		cakeIngredients.add(Ingredient.fromStacks((ItemStack[]) OreDictionary.getOres("bucketMilk").toArray()));
-		cakeIngredients.add(Ingredient.fromItem(Items.SUGAR));
-		cakeIngredients.add(Ingredient.fromStacks((ItemStack[]) OreDictionary.getOres("egg").toArray()));
-		cakeIngredients.add(Ingredient.fromItem(Items.SUGAR));
-		cakeIngredients.add(Ingredient.fromStacks((ItemStack[]) OreDictionary.getOres("cropWheat").toArray()));
-		cakeIngredients.add(Ingredient.fromStacks((ItemStack[]) OreDictionary.getOres("cropWheat").toArray()));
-		cakeIngredients.add(Ingredient.fromStacks((ItemStack[]) OreDictionary.getOres("cropWheat").toArray()));*/
-		
-		ForgeRegistries.RECIPES.register(new ShapedRecipes("fortykeks", 3, 3, cakeIngredients, new ItemStack(Items.CAKE)).setRegistryName("fortykeks"));
+		GameRegistry.addShapedRecipe(new ResourceLocation(ModInformation.ID, "cake_anymilk"), group, new ItemStack(Items.CAKE), new Object[]{"MMM", "SES", "WWW", 'M', "bucketMilk", 'S', Items.SUGAR, 'E', "egg", 'W', "cropWheat"});
 	}
 
 	public static class BucketInfos {
