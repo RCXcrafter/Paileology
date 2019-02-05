@@ -9,7 +9,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -60,17 +59,12 @@ public class Paileology {
 	public void postInit(FMLPostInitializationEvent event) {
 		proxy.postInit(event);
 	}
-	
+
 	@SubscribeEvent
 	public static void itemRegistry(RegistryEvent.Register<Item> event) {
 		itemRegistry = event.getRegistry();
 		for (BucketInfos bucketInfo : BucketRegistry.bucketList) {
-			
-			
 			final ResourceLocation location = bucketInfo.bucketItem.getRegistryName();
-			
-			
-			
 			itemRegistry.register(bucketInfo.bucketItem);
 		}
 	}

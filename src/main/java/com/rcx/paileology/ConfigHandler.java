@@ -25,7 +25,7 @@ public class ConfigHandler {
 			"aluminum:thermalfoundation:material:132:true:false:FFFFFF:ingotAluminum",
 			"nickel:thermalfoundation:material:133:true:false:FFF9BA:ingotNickel",
 			"rubber:IC2:crafting:0:false:true:333333:itemRubber",
-			"plastic:Mekanism:Polyethene:2:false:true:custom:itemPlastic",
+			"plastic:mekanism:polyethene:2:false:true:custom:itemPlastic",
 			"steel:thermalfoundation:material:160:true:false:C6C6C6:ingotSteel",
 			"electrum:thermalfoundation:material:161:true:false:FFEC60:ingotElectrum",
 			"invar:thermalfoundation:material:162:true:false:EEFFCC:ingotInvar",

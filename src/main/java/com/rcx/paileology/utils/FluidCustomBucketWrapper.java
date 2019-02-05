@@ -37,15 +37,16 @@ public class FluidCustomBucketWrapper extends FluidBucketWrapper {
 		return false;
 	}
 
-	@Override
-	protected void setFluid(Fluid fluid) {
-		if(fluid == null) {
-			bucketItem.drain(container, 1000, true);
-
-		}
-		else if(FluidRegistry.getBucketFluids().contains(fluid) || fluid == FluidRegistry.LAVA
-				|| fluid == FluidRegistry.WATER || fluid.getName().equals("milk")) {
-			bucketItem.fill(container, new FluidStack(fluid, Fluid.BUCKET_VOLUME), true);
+	protected void setFluid(@Nullable FluidStack fluidStack) {
+		if (fluidStack != null) {
+			container = bucketItem.getEmpty().copy();
+			bucketItem.fill(container, fluidStack, true);
+		} else {
+			if(bucketItem.doesBreak(container)) {
+				container.setCount(0);
+			} else {
+				container = bucketItem.getEmpty().copy();
+			}
 		}
 	}
 
@@ -54,11 +55,9 @@ public class FluidCustomBucketWrapper extends FluidBucketWrapper {
 		if (container.getCount() != 1 || resource == null || resource.amount < Fluid.BUCKET_VOLUME || bucketItem.hasFluid(container) || !canFillFluidType(resource)) {
 			return 0;
 		}
-
 		if (doFill) {
-			setFluid(resource.getFluid());
+			setFluid(resource);
 		}
-
 		return Fluid.BUCKET_VOLUME;
 	}
 }

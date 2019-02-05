@@ -28,7 +28,6 @@ public class CommonProxy {
 				BucketRegistry.registerBucket(entries[0], entries[1], entries[2], Integer.parseInt(entries[3]), Boolean.parseBoolean(entries[4]), Boolean.parseBoolean(entries[5]), Integer.parseInt(entries[6], 16), entries[7]);
 			}
 		}
-		
 		OreDictionary.registerOre("bucketMilk", new ItemStack(Items.MILK_BUCKET));
 	}
 

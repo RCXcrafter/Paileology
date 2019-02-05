@@ -10,9 +10,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
@@ -47,22 +44,6 @@ public class BucketRegistry {
 				GameRegistry.addShapedRecipe(new ResourceLocation(ModInformation.ID, oredict), group, new ItemStack(bucket, 1, 0), new Object[]{"X X", " X ", 'X', new ItemStack(baseItem, 1, bucketInfo.itemMeta)});
 
 			Paileology.emptyBuckets.add(new ItemStack(bucket));
-			// add all fluids that the bucket can be filled with
-			for(Fluid fluid : FluidRegistry.getRegisteredFluids().values()) {
-				// skip milk if registered since we add it manually whether it is a
-				// fluid or not
-				if(!fluid.getName().equals("milk")) {
-					if(!bucketInfo.canBucketCarryHot && fluid.getTemperature() >= 450){
-						continue;
-					}
-					FluidStack fs = new FluidStack(fluid, ((ItemCustomBucket) bucket).getCapacity());
-					ItemStack stack = new ItemStack(bucket);
-					if(((ItemCustomBucket) bucket).fill(stack, fs, true) == fs.amount) {
-						Paileology.filledBuckets.add(stack);
-						//FluidContainerRegistry.registerFluidContainer(fs, stack);
-					}
-				}
-			}
 			// special fluids
 			for(SpecialFluid fluid : SpecialFluid.values()) {
 				if(fluid.show()) {

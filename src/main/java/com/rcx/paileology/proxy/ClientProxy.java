@@ -11,9 +11,7 @@ import com.rcx.paileology.utils.ItemBucketColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
@@ -28,7 +26,7 @@ public class ClientProxy extends CommonProxy {
 		super.preInit(event);
 		MinecraftForge.EVENT_BUS.register(this);
 	}
-	
+
 	@SubscribeEvent
 	public void registerModels(ModelRegistryEvent event) {
 		for (BucketInfos bucketInfo : BucketRegistry.bucketList) {
@@ -37,10 +35,10 @@ public class ClientProxy extends CommonProxy {
 				model1 = "paileology:bucket_" + bucketInfo.materialName;
 			}
 			final String model = model1;
-			
+
 			// items
 			ModelLoader.setCustomModelResourceLocation(bucketInfo.bucketItem, 0, new ModelResourceLocation(model, "inventory"));
-			
+
 			ModelLoader.setCustomMeshDefinition(bucketInfo.bucketItem, new ItemMeshDefinition() {
 				@Nonnull
 				@Override
